@@ -3,75 +3,100 @@ import React from 'react';
 export interface ToolItem {
   name: string;
   svg: React.ReactNode;
+  glowColor: string;
+  borderColor: string;
+  accentColor: string;
 }
 
 export const TOOLS: ToolItem[] = [
   {
     name: 'Wazuh SIEM',
+    glowColor: 'rgba(0, 164, 228, 0.26)',
+    borderColor: 'rgba(0, 164, 228, 0.35)',
+    accentColor: '#00a4e4',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
-        <rect x="6" y="6" width="36" height="36" rx="8" fill="#1b2a4a" stroke="#00a3e0" strokeWidth="2.5" />
-        <path d="M14 18l6 14 4-8 4 8 6-14" fill="none" stroke="#00d4ff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="24" cy="14" r="2.5" fill="#c6f23a" />
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
+        <rect x="5" y="5" width="38" height="38" rx="10" fill="#0f1f38" stroke="#00a4e4" strokeWidth="2.2" />
+        <path d="M13 18l6 14 5-8 5 8 6-14" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="24" cy="14" r="2.8" fill="#c6f23a" />
       </svg>
     ),
   },
   {
     name: 'Wireshark',
+    glowColor: 'rgba(56, 189, 248, 0.26)',
+    borderColor: 'rgba(56, 189, 248, 0.35)',
+    accentColor: '#38bdf8',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
-        <path fill="#1a5fb4" d="M8 38c6-2 10-10 12-22 5 10 12 18 20 22-8-4-15-18-16-28-5 12-11 24-16 28z" />
-        <path fill="#3584e4" d="M18 24c3 4 8 9 14 11-5-6-9-15-10-21-2 4-3 7-4 10z" />
-        <circle cx="24" cy="38" r="3" fill="#62a0ea" />
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
+        <rect x="5" y="5" width="38" height="38" rx="10" fill="#0c1e3a" stroke="#2563eb" strokeWidth="2.2" />
+        <path fill="#38bdf8" d="M12 36c5-2 9-9 11-19 4 9 10 16 17 19-7-4-13-16-14-24-4 10-9 20-14 24z" />
+        <path fill="#60a5fa" d="M19 24c3 3 7 7 12 9-4-5-7-12-8-17-2 3-3 6-4 8z" />
+        <circle cx="24" cy="35" r="2.5" fill="#93c5fd" />
       </svg>
     ),
   },
   {
     name: 'Nmap',
+    glowColor: 'rgba(34, 197, 94, 0.26)',
+    borderColor: 'rgba(34, 197, 94, 0.35)',
+    accentColor: '#22c55e',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
-        <circle cx="24" cy="24" r="18" fill="#121824" stroke="#4e9a06" strokeWidth="2.5" />
-        <circle cx="24" cy="24" r="12" fill="none" stroke="#73d216" strokeWidth="1.5" strokeDasharray="3 3" />
-        <circle cx="24" cy="24" r="6" fill="none" stroke="#8ae234" strokeWidth="1.5" />
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
+        <circle cx="24" cy="24" r="19" fill="#0c1711" stroke="#22c55e" strokeWidth="2.2" />
+        <circle cx="24" cy="24" r="13" fill="none" stroke="#4ade80" strokeWidth="1.5" strokeDasharray="3 3" />
+        <circle cx="24" cy="24" r="7" fill="none" stroke="#86efac" strokeWidth="1.5" />
         <line x1="24" y1="24" x2="36" y2="15" stroke="#c6f23a" strokeWidth="2.5" strokeLinecap="round" />
-        <circle cx="34" cy="17" r="2.5" fill="#ff4d4d" />
+        <circle cx="34" cy="17" r="2.5" fill="#ef4444" />
       </svg>
     ),
   },
   {
     name: 'Burp Suite',
+    glowColor: 'rgba(255, 102, 51, 0.28)',
+    borderColor: 'rgba(255, 102, 51, 0.38)',
+    accentColor: '#ff6633',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
-        <rect x="6" y="6" width="36" height="36" rx="8" fill="#ff6633" />
-        <path d="M15 14h10c3 0 5 1.5 5 4s-2 3.5-5 3.5H15zm0 11h11c3.5 0 5.5 1.5 5.5 4.5S29.5 34 26 34H15z" fill="#ffffff" />
-        <path d="M19 18h5c1 0 2 .5 2 1.5s-1 1.5-2 1.5h-5zm0 9h6c1.2 0 2.2.5 2.2 1.8s-1 1.7-2.2 1.7h-6z" fill="#ff6633" />
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
+        <rect x="5" y="5" width="38" height="38" rx="10" fill="#ff6633" />
+        <path d="M16 14h9c3 0 5 1.5 5 4s-2 3.5-5 3.5h-9zm0 10h10c3.5 0 5.5 1.5 5.5 4.5S28.5 33 25 33H16z" fill="#ffffff" />
+        <path d="M20 18h4c1 0 1.8.4 1.8 1.2s-.8 1.2-1.8 1.2h-4zm0 8h5c1.2 0 2 .5 2 1.5s-.8 1.5-2 1.5h-5z" fill="#ff6633" />
       </svg>
     ),
   },
   {
     name: 'Metasploit',
+    glowColor: 'rgba(43, 114, 210, 0.28)',
+    borderColor: 'rgba(43, 114, 210, 0.38)',
+    accentColor: '#2b72d2',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
-        <rect x="6" y="6" width="36" height="36" rx="8" fill="#1b3a5c" stroke="#2a75d3" strokeWidth="2" />
-        <path d="M14 34V14l10 11 10-11v20" fill="none" stroke="#2980b9" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M14 34V18l10 10 10-10v16" fill="none" stroke="#5dade2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
+        <rect x="5" y="5" width="38" height="38" rx="10" fill="#132b47" stroke="#2563eb" strokeWidth="2.2" />
+        <path d="M14 34V14l10 11 10-11v20" fill="none" stroke="#3b82f6" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M14 34V18l10 10 10-10v16" fill="none" stroke="#93c5fd" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
   },
   {
     name: 'Kali Linux',
+    glowColor: 'rgba(56, 189, 248, 0.26)',
+    borderColor: 'rgba(56, 189, 248, 0.35)',
+    accentColor: '#38bdf8',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
-        <circle cx="24" cy="24" r="19" fill="#0f141c" stroke="#2582ff" strokeWidth="2" />
-        <path d="M16 33c4-2 7-6 9-11 3 3 8 5 11 4-2-4-5-8-9-9-1 4-4 9-11 16z" fill="#2582ff" />
-        <path d="M14 26c3 1 7-1 10-5-4 1-8 2-10 5z" fill="#70aeff" />
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
+        <circle cx="24" cy="24" r="19" fill="#0b1320" stroke="#0ea5e9" strokeWidth="2.2" />
+        <path d="M16 33c4-2 7-6 9-11 3 3 8 5 11 4-2-4-5-8-9-9-1 4-4 9-11 16z" fill="#38bdf8" />
+        <path d="M14 26c3 1 7-1 10-5-4 1-8 2-10 5z" fill="#bae6fd" />
       </svg>
     ),
   },
   {
     name: 'Python',
+    glowColor: 'rgba(234, 179, 8, 0.26)',
+    borderColor: 'rgba(55, 118, 171, 0.38)',
+    accentColor: '#ffd43b',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
         <path
           fill="#3776ab"
           d="M23.6 5c-6.8 0-6.4 2.9-6.4 2.9l.01 3h6.5v.9H14.5S9 11.2 9 18.2s4.8 6.7 4.8 6.7h2.9v-4.1s-.2-4.8 4.7-4.8h8.2s4.6-.1 4.6-4.5-4.1-6.5-8.6-6.5zm-3.6 2.8a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6z"
@@ -85,9 +110,12 @@ export const TOOLS: ToolItem[] = [
   },
   {
     name: 'Go',
+    glowColor: 'rgba(0, 173, 216, 0.28)',
+    borderColor: 'rgba(0, 173, 216, 0.38)',
+    accentColor: '#00add8',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
-        <rect x="6" y="6" width="36" height="36" rx="8" fill="#00add8" />
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
+        <rect x="5" y="5" width="38" height="38" rx="10" fill="#00add8" />
         <text x="24" y="31" fontFamily="Arial,sans-serif" fontWeight="900" fontSize="21" fill="#fff" textAnchor="middle">
           GO
         </text>
@@ -96,17 +124,23 @@ export const TOOLS: ToolItem[] = [
   },
   {
     name: 'Bash',
+    glowColor: 'rgba(34, 197, 94, 0.26)',
+    borderColor: 'rgba(78, 184, 34, 0.35)',
+    accentColor: '#4eb822',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
-        <rect x="6" y="8" width="36" height="32" rx="6" fill="#293138" stroke="#4eb822" strokeWidth="2" />
-        <path d="M14 19l5 5-5 5M22 29h8" stroke="#4eb822" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
+        <rect x="5" y="7" width="38" height="34" rx="8" fill="#18231c" stroke="#4eb822" strokeWidth="2.2" />
+        <path d="M13 18l6 6-6 6M22 30h9" stroke="#4eb822" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
       </svg>
     ),
   },
   {
     name: 'Docker',
+    glowColor: 'rgba(13, 183, 237, 0.26)',
+    borderColor: 'rgba(13, 183, 237, 0.35)',
+    accentColor: '#0db7ed',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
         <rect x="15" y="16" width="5" height="4" fill="#0db7ed" />
         <rect x="21" y="16" width="5" height="4" fill="#0db7ed" />
         <rect x="27" y="16" width="5" height="4" fill="#0db7ed" />
@@ -122,44 +156,56 @@ export const TOOLS: ToolItem[] = [
   },
   {
     name: 'Nuclei',
+    glowColor: 'rgba(168, 85, 247, 0.28)',
+    borderColor: 'rgba(168, 85, 247, 0.38)',
+    accentColor: '#a855f7',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
-        <rect x="6" y="6" width="36" height="36" rx="8" fill="#111827" stroke="#8b5cff" strokeWidth="2" />
-        <circle cx="24" cy="24" r="6" fill="#8b5cff" />
-        <ellipse cx="24" cy="24" rx="14" ry="5" fill="none" stroke="#a78bfa" strokeWidth="1.8" transform="rotate(30 24 24)" />
-        <ellipse cx="24" cy="24" rx="14" ry="5" fill="none" stroke="#c4b5fd" strokeWidth="1.8" transform="rotate(-30 24 24)" />
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
+        <rect x="5" y="5" width="38" height="38" rx="10" fill="#1a1329" stroke="#a855f7" strokeWidth="2.2" />
+        <circle cx="24" cy="24" r="6" fill="#a855f7" />
+        <ellipse cx="24" cy="24" rx="14" ry="5" fill="none" stroke="#c084fc" strokeWidth="1.8" transform="rotate(30 24 24)" />
+        <ellipse cx="24" cy="24" rx="14" ry="5" fill="none" stroke="#e9d5ff" strokeWidth="1.8" transform="rotate(-30 24 24)" />
       </svg>
     ),
   },
   {
     name: 'Nikto',
+    glowColor: 'rgba(239, 68, 68, 0.26)',
+    borderColor: 'rgba(239, 68, 68, 0.35)',
+    accentColor: '#ef4444',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
-        <circle cx="24" cy="24" r="18" fill="#8b0000" stroke="#ff4d4d" strokeWidth="2" />
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
+        <circle cx="24" cy="24" r="19" fill="#200d0d" stroke="#ef4444" strokeWidth="2.2" />
         <path d="M16 16l16 16M32 16L16 32" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" />
-        <circle cx="24" cy="24" r="4" fill="#ffd700" />
+        <circle cx="24" cy="24" r="4.5" fill="#facc15" />
       </svg>
     ),
   },
   {
     name: 'SQLmap',
+    glowColor: 'rgba(245, 158, 11, 0.26)',
+    borderColor: 'rgba(245, 158, 11, 0.35)',
+    accentColor: '#f59e0b',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
-        <rect x="6" y="6" width="36" height="36" rx="8" fill="#800020" stroke="#ff3b30" strokeWidth="2" />
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
+        <rect x="5" y="5" width="38" height="38" rx="10" fill="#241408" stroke="#f59e0b" strokeWidth="2.2" />
         <text x="24" y="24" fontFamily="Arial,sans-serif" fontWeight="900" fontSize="13" fill="#fff" textAnchor="middle">
           SQL
         </text>
-        <path d="M14 29h20M14 33h14" stroke="#ffcc00" strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M14 29h20M14 33h14" stroke="#fbbf24" strokeWidth="2.5" strokeLinecap="round" />
       </svg>
     ),
   },
   {
     name: 'TryHackMe',
+    glowColor: 'rgba(198, 242, 58, 0.26)',
+    borderColor: 'rgba(198, 242, 58, 0.35)',
+    accentColor: '#c6f23a',
     svg: (
-      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(40px,4.6vw,62px)] h-auto">
-        <rect x="6" y="6" width="36" height="36" rx="8" fill="#1f242d" stroke="#c6f23a" strokeWidth="2" />
+      <svg viewBox="0 0 48 48" aria-hidden="true" className="w-[clamp(42px,4.5vw,54px)] h-auto">
+        <rect x="5" y="5" width="38" height="38" rx="10" fill="#151b1f" stroke="#c6f23a" strokeWidth="2.2" />
         <path d="M14 18h20M24 18v16" stroke="#c6f23a" strokeWidth="4" strokeLinecap="round" />
-        <circle cx="34" cy="30" r="3" fill="#ff4fa0" />
+        <circle cx="34" cy="30" r="3" fill="#ec4899" />
       </svg>
     ),
   },

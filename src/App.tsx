@@ -377,17 +377,37 @@ export default function App() {
       <div className="gal" id="gal" aria-label="Cybersecurity Tools and Technologies">
         <div className="rw rw-left" id="r1">
           {marqueeRow1.map((t, idx) => (
-            <div key={`${t.name}-r1-${idx}`} className="tl">
-              {t.svg}
-              <span>{t.name}</span>
+            <div
+              key={`${t.name}-r1-${idx}`}
+              className="tl"
+              style={
+                {
+                  '--card-glow': t.glowColor,
+                  '--card-border': t.borderColor,
+                  '--card-accent': t.accentColor,
+                } as React.CSSProperties
+              }
+            >
+              <div className="tl-icon-wrap">{t.svg}</div>
+              <span className="tl-name">{t.name}</span>
             </div>
           ))}
         </div>
         <div className="rw rw-right" id="r2">
           {marqueeRow2.map((t, idx) => (
-            <div key={`${t.name}-r2-${idx}`} className="tl">
-              {t.svg}
-              <span>{t.name}</span>
+            <div
+              key={`${t.name}-r2-${idx}`}
+              className="tl"
+              style={
+                {
+                  '--card-glow': t.glowColor,
+                  '--card-border': t.borderColor,
+                  '--card-accent': t.accentColor,
+                } as React.CSSProperties
+              }
+            >
+              <div className="tl-icon-wrap">{t.svg}</div>
+              <span className="tl-name">{t.name}</span>
             </div>
           ))}
         </div>
