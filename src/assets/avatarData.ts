@@ -1,3 +1,3 @@
-import ishaAvatar from './images/isha_avatar_1794139328664.jpg';
+import ishaAvatar from './images/isha_portfolio_avatar.webp';
 
 export const AVATAR_IMAGE_SRC = ishaAvatar;

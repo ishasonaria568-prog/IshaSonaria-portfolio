@@ -76,27 +76,40 @@ nav {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 55;
   display: flex;
-  justify-content: flex-end;
-  gap: 28px;
-  padding: calc(18px + env(safe-area-inset-top, 0px)) 5vw 18px;
-  font-size: 12px;
-  font-weight: 800;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: calc(24px + env(safe-area-inset-top, 0px)) 5vw 20px;
+  font-size: 13px;
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  mix-blend-mode: difference;
   color: #fff;
   transition: opacity 0.35s;
 }
 
 nav a {
   text-decoration: none;
+  color: #ffffff;
   cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s, color 0.2s;
 }
 
 nav a:hover {
-  opacity: 0.6;
+  opacity: 0.65;
+}
+
+@media (max-width: 768px) {
+  nav {
+    padding: calc(16px + env(safe-area-inset-top, 0px)) 4vw 14px;
+    font-size: 11px;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
 .pill {
@@ -147,21 +160,33 @@ nav a:hover {
   position: absolute;
   left: 5vw;
   right: 5vw;
-  top: 66vh;
+  top: 60vh;
   margin: 0;
   z-index: 42;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-top: 18px;
   animation: fd 1s 0.7s both;
+  pointer-events: none;
 }
 
 @media (max-width: 820px) {
+  .hero {
+    height: 100svh;
+  }
   .hrow {
-    top: 106vh;
+    top: auto;
+    bottom: 5vh;
+    left: 5vw;
+    right: 5vw;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+  .hrow p {
+    text-align: center;
+    max-width: 92vw;
+    font-size: 13px;
   }
 }
 
@@ -170,21 +195,18 @@ nav a:hover {
   left: 0;
   top: 0;
   z-index: 41;
-  height: min(58vh, 110vw);
+  height: min(80vh, 120vw);
   width: auto;
   pointer-events: none;
-  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.7));
   will-change: transform, opacity;
   opacity: 0;
   transform-style: preserve-3d;
-  border-radius: 40px;
-  mask-image: radial-gradient(circle at 50% 46%, black 65%, transparent 96%);
-  -webkit-mask-image: radial-gradient(circle at 50% 46%, black 65%, transparent 96%);
 }
 
 @media (max-width: 600px) {
   .av {
-    height: min(46vh, 95vw);
+    height: min(46vh, 85vw);
   }
 }
 
@@ -194,14 +216,13 @@ nav a:hover {
   top: 0;
   z-index: 40;
   margin: 0;
-  font-size: clamp(54px, 19vw, 330px);
-  letter-spacing: -0.005em;
+  font-size: clamp(54px, 16vw, 240px);
+  letter-spacing: -0.01em;
   line-height: 1;
   color: #f3f4fa;
   white-space: nowrap;
   transform-origin: 0 0;
   will-change: transform;
-  mix-blend-mode: difference;
   pointer-events: none;
 }
 

@@ -52,9 +52,9 @@ test('createMarqueeTrackItems duplicates items correctly for seamless infinite s
 
 test('validateContactForm checks name, email, and message', () => {
   assert.equal(validateContactForm('', 'test@example.com', 'hi').isValid, false);
-  assert.equal(validateContactForm('Gautam', 'invalid-email', 'hi').isValid, false);
-  assert.equal(validateContactForm('Gautam', 'test@example.com', '').isValid, false);
-  assert.equal(validateContactForm('Gautam', 'test@example.com', 'Valid message').isValid, true);
+  assert.equal(validateContactForm('Isha', 'invalid-email', 'hi').isValid, false);
+  assert.equal(validateContactForm('Isha', 'test@example.com', '').isValid, false);
+  assert.equal(validateContactForm('Isha', 'test@example.com', 'Valid message').isValid, true);
 });
 
 test('formatMailtoLink encodes subject and message correctly', () => {

@@ -116,14 +116,19 @@ export default function App() {
       // 1. Hero H1 Stagger and sticky pin
       const h1 = h1Ref.current;
       if (h1) {
-        const e = clamp(sy / (H * 0.8), 0, 1);
+        const w0 = h1.offsetWidth;
+        const h0 = h1.offsetHeight;
+        const p = clamp(sy / (H * 0.85), 0, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        const s0 = Math.min(1, (W * 0.92) / (w0 || 1));
+        const s1 = Math.min(s0, (W < 600 ? 96 : 132) / (w0 || 1));
+        const x = ((W - w0 * s0) / 2) * (1 - e) + W * 0.05 * e - mx * 14 * (1 - e);
+        const y = (H * 0.38 - (h0 * s0) / 2) * (1 - e) + 15 * e - my * 8 * (1 - e);
+        h1.style.transform = `translate(${x}px, ${y}px) scale(${s0 + (s1 - s0) * e})`;
+
         const chars = h1.querySelectorAll<HTMLElement>('.ch');
-        chars.forEach((ch, idx) => {
-          const charLag = idx * 0.035;
-          const charProgress = clamp((e - charLag) / (1 - charLag || 1), 0, 1);
-          const yOff = (1 - charProgress) * -12 + charProgress * -100;
-          ch.style.transform = `translateY(${yOff}%)`;
-          ch.style.opacity = `${1 - charProgress * 0.95}`;
+        chars.forEach((c, idx) => {
+          c.style.transform = `translateY(${Math.sin(p * Math.PI) * Math.sin(idx * 0.9 + t * 3) * 14}px)`;
         });
       }
 
@@ -140,7 +145,7 @@ export default function App() {
         av.style.visibility = fa > 0.01 ? 'visible' : 'hidden';
 
         const ax = (W - aw) / 2 - mx * 10;
-        const ay = H * (W < 600 ? 0.48 : 0.36) + Math.sin(t * 1.4) * 8 - e * H * 0.3;
+        const ay = H * (W < 600 ? 0.22 : 0.16) + Math.sin(t * 1.4) * 8 - e * H * 0.3;
         av.style.transform = `translate(${ax}px, ${ay}px) scale(${(1 - 0.35 * e) * ib}) perspective(900px) rotateY(${mx * 22}deg) rotateX(${-my * 14}deg)`;
       }
 
@@ -296,24 +301,17 @@ export default function App() {
       {/* Top Navigation */}
       <nav id="nv" ref={navRef} aria-label="Main Navigation">
         <a href="#about">About</a>
-        <a className="x" href="#skills">
-          Skills
-        </a>
-        <a className="x" href="#projects">
-          Projects
-        </a>
-        <a className="x" href="#exp">
-          Experience
-        </a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#exp">Experience</a>
+        <a href="#contact">Contact</a>
         <a
-          className="x text-[#00d4ff] hover:text-white"
           href="/assets/aistudio/ISResume_96235500_96235500.pdf"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Resume ↗
+          Resume (CV)
         </a>
-        <a href="#contact">Contact</a>
       </nav>
 
       {/* Floating Header "Contact me" Pill */}
@@ -322,44 +320,40 @@ export default function App() {
       </a>
 
       {/* Hero Section */}
-      <header className="hero" id="top" style={{ zIndex: 50 }}>
-        <div className="hrow" style={{ zIndex: 50 }}>
-          <p style={{ zIndex: 50 }}>
+      <header className="hero" id="top">
+        <div className="hrow">
+          <p>
             SOC Analyst &amp; Cybersecurity Specialist passionate about threat defense, Wazuh SIEM monitoring, vulnerability assessment, and digital forensics.
           </p>
-          <div className="flex items-center gap-3">
-            <a
-              className="pill"
-              style={{
-                background: 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(255, 255, 255, 0.25)',
-                color: '#eceef7',
-              }}
-              href="/assets/aistudio/ISResume_96235500_96235500.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Resume PDF ↗
-            </a>
-            <a className="pill" href="#contact">
-              Contact me
-            </a>
-          </div>
         </div>
       </header>
 
       {/* Hero Animated Fixed H1 */}
-      <h1 id="h1" className="hn" ref={h1Ref} aria-label="Isha Sonaria">
+      <h1 id="h1" className="hn" ref={h1Ref} aria-label="Hi, I'm Isha Sonaria">
         <span className="wd">
-          {'Isha'.split('').map((char, i) => (
-            <span key={i} className="ch" style={{ animationDelay: `${i * 55}ms` }}>
+          {'HI,'.split('').map((char, i) => (
+            <span key={i} className="ch" style={{ animationDelay: `${i * 45}ms` }}>
               {char}
             </span>
           ))}
         </span>
         <span className="wd">
-          {'Sonaria'.split('').map((char, i) => (
-            <span key={i} className="ch" style={{ animationDelay: `${(5 + i) * 55}ms` }}>
+          {"I'M".split('').map((char, i) => (
+            <span key={i} className="ch" style={{ animationDelay: `${(3 + i) * 45}ms` }}>
+              {char}
+            </span>
+          ))}
+        </span>
+        <span className="wd">
+          {'ISHA'.split('').map((char, i) => (
+            <span key={i} className="ch" style={{ animationDelay: `${(6 + i) * 45}ms` }}>
+              {char}
+            </span>
+          ))}
+        </span>
+        <span className="wd">
+          {'SONARIA'.split('').map((char, i) => (
+            <span key={i} className="ch" style={{ animationDelay: `${(10 + i) * 45}ms` }}>
               {char}
             </span>
           ))}
