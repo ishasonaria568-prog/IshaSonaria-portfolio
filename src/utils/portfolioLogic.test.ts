@@ -11,6 +11,8 @@ import {
   filterProjects,
   filterGitHubRepos,
   calculateCardDeckEffect,
+  calculateHeroLayout,
+  calculateExperienceDrift,
 } from './portfolioLogic.js';
 
 
@@ -109,5 +111,58 @@ test('calculateCardDeckEffect computes scale and dimming when overlapping', () =
   const full = calculateCardDeckEffect(100, 400, 100);
   assert.equal(full.scale, 0.95);
   assert.equal(full.brightness, 0.8);
+});
+
+test('calculateHeroLayout adapts cleanly for mobile, compact laptop, and large desktop', () => {
+  const laptop = calculateHeroLayout({
+    viewportWidth: 1280,
+    viewportHeight: 720,
+    scrollY: 0,
+    elapsedSec: 2,
+    h1Width: 1800,
+    h1Height: 240,
+    avatarWidth: 273,
+    mouseX: 0.8,
+    mouseY: -0.5,
+  });
+  assert.equal(laptop.isMobile, false);
+  assert.equal(laptop.isCompactLaptop, true);
+  assert.equal(laptop.avatarX, (1280 - 273) / 2); // Centered regardless of mouseX
+
+  const mobile = calculateHeroLayout({
+    viewportWidth: 390,
+    viewportHeight: 844,
+    scrollY: 0,
+    elapsedSec: 2,
+    h1Width: 1400,
+    h1Height: 200,
+    avatarWidth: 240,
+    mouseX: 0.9,
+    mouseY: 0.9,
+  });
+  assert.equal(mobile.isMobile, true);
+  assert.equal(mobile.isCompactLaptop, false);
+  assert.equal(mobile.avatarX, (390 - 240) / 2);
+  assert.equal(mobile.h1Opacity, 1);
+
+  const mobileScrolled = calculateHeroLayout({
+    viewportWidth: 390,
+    viewportHeight: 844,
+    scrollY: 700,
+    elapsedSec: 2,
+    h1Width: 1400,
+    h1Height: 200,
+    avatarWidth: 240,
+    mouseX: 0,
+    mouseY: 0,
+  });
+  assert.equal(mobileScrolled.h1Opacity, 0);
+  assert.equal(mobileScrolled.avatarOpacity, 0);
+});
+
+test('calculateExperienceDrift disables drift on mobile and clamps desktop offset', () => {
+  assert.equal(calculateExperienceDrift(-1000, 200, 844, 1, true), 0);
+  assert.equal(calculateExperienceDrift(-2000, 200, 900, 1, false), 36);
+  assert.equal(calculateExperienceDrift(2000, 200, 900, 1, false), -36);
 });
 

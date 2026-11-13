@@ -18,6 +18,8 @@ import {
   validateContactForm,
   filterProjects,
   calculateCardDeckEffect,
+  calculateHeroLayout,
+  calculateExperienceDrift,
   DEFAULT_CONTACT_EMAIL,
 } from './utils/portfolioLogic';
 
@@ -38,6 +40,7 @@ export default function App() {
   const sttRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const floatingPillRef = useRef<HTMLAnchorElement>(null);
+  const hrowRef = useRef<HTMLDivElement>(null);
 
   // Duplicated tool arrays for seamless infinite auto-scrolling
   const marqueeRow1 = useMemo(() => createMarqueeTrackItems(TOOLS, 4), []);
@@ -113,49 +116,50 @@ export default function App() {
       const { x: mx, y: my } = mousePosRef.current;
       const isMobile = W <= 820;
 
-      // 1. Hero H1 Stagger and sticky pin
+      // 1 & 2. Dynamic Hero Header, Avatar & Bio positioning across mobile/laptop/desktop
       const h1 = h1Ref.current;
+      const av = avatarImgRef.current;
+      const hrow = hrowRef.current;
+
+      const heroLayout = calculateHeroLayout({
+        viewportWidth: W,
+        viewportHeight: H,
+        scrollY: sy,
+        elapsedSec: t,
+        h1Width: h1 ? h1.offsetWidth : 1,
+        h1Height: h1 ? h1.offsetHeight : 1,
+        avatarWidth: av ? av.offsetWidth : 0,
+        mouseX: mx,
+        mouseY: my,
+      });
+
       if (h1) {
-        const w0 = h1.offsetWidth;
-        const h0 = h1.offsetHeight;
-        const p = clamp(sy / (H * 0.85), 0, 1);
-        const e = 1 - Math.pow(1 - p, 3);
-        const s0 = Math.min(1, (W * 0.92) / (w0 || 1));
-        const s1 = Math.min(s0, (W < 600 ? 96 : 132) / (w0 || 1));
-        const x = ((W - w0 * s0) / 2) * (1 - e) + W * 0.05 * e - mx * 14 * (1 - e);
-        const y = (H * 0.38 - (h0 * s0) / 2) * (1 - e) + 15 * e - my * 8 * (1 - e);
-        h1.style.transform = `translate(${x}px, ${y}px) scale(${s0 + (s1 - s0) * e})`;
+        h1.style.transform = `translate(${heroLayout.h1X}px, ${heroLayout.h1Y}px) scale(${heroLayout.h1Scale})`;
+        h1.style.opacity = `${heroLayout.h1Opacity}`;
 
         const chars = h1.querySelectorAll<HTMLElement>('.ch');
         chars.forEach((c, idx) => {
-          c.style.transform = `translateY(${Math.sin(p * Math.PI) * Math.sin(idx * 0.9 + t * 3) * 14}px)`;
+          c.style.transform = `translateY(${Math.sin(heroLayout.scrollProgress * Math.PI) * Math.sin(idx * 0.9 + t * 3) * 14}px)`;
         });
       }
 
-      // 2. 3D Avatar Image mouse-tilt and floating translation
-      const av = avatarImgRef.current;
       if (av) {
-        const p = clamp(sy / (H * 0.85), 0, 1);
-        const e = 1 - Math.pow(1 - p, 3);
-        const aw = av.offsetWidth;
-        const iv = clamp((t - 0.2) / 0.6, 0, 1);
-        const ib = isMobile ? 0.72 : (1 + 2.7 * Math.pow(iv - 1, 3) + 1.7 * Math.pow(iv - 1, 2));
-        const fa = 1 - clamp((p - 0.3) / 0.45, 0, 1);
-        av.style.opacity = `${fa * iv}`;
-        av.style.visibility = fa > 0.01 ? 'visible' : 'hidden';
-
-        const ax = (W - aw) / 2 - mx * 10;
-        const ay = H * (W < 600 ? 0.22 : 0.16) + Math.sin(t * 1.4) * 8 - e * H * 0.3;
-        av.style.transform = `translate(${ax}px, ${ay}px) scale(${(1 - 0.35 * e) * ib}) perspective(900px) rotateY(${mx * 22}deg) rotateX(${-my * 14}deg)`;
+        av.style.opacity = `${heroLayout.avatarOpacity}`;
+        av.style.visibility = heroLayout.avatarOpacity > 0.01 ? 'visible' : 'hidden';
+        av.style.transform = `translate3d(${heroLayout.avatarX}px, ${heroLayout.avatarY}px, 0) scale(${heroLayout.avatarScale})`;
       }
 
-      // 3. Experience cards horizontal drift
+      if (hrow) {
+        hrow.style.opacity = `${heroLayout.bioOpacity}`;
+      }
+
+      // 3. Experience cards clamped horizontal drift (disabled on mobile to prevent overflow)
       const driftElements = document.querySelectorAll<HTMLElement>('[data-dr]');
       driftElements.forEach((el) => {
         const rect = el.getBoundingClientRect();
         const factor = Number(el.dataset.dr) || 1;
-        const offset = (H / 2 - (rect.top + rect.height / 2)) * 0.1 * factor;
-        el.style.transform = `translateX(${offset}px)`;
+        const offset = calculateExperienceDrift(rect.top, rect.height, H, factor, isMobile);
+        el.style.transform = offset === 0 ? '' : `translateX(${offset}px)`;
       });
 
       // 4. Stacking project cards smooth scale, depth, and brightness dimming
@@ -321,7 +325,7 @@ export default function App() {
 
       {/* Hero Section */}
       <header className="hero" id="top">
-        <div className="hrow">
+        <div className="hrow" ref={hrowRef}>
           <p>
             SOC Analyst &amp; Cybersecurity Specialist passionate about threat defense, Wazuh SIEM monitoring, vulnerability assessment, and digital forensics.
           </p>
@@ -360,8 +364,15 @@ export default function App() {
         </span>
       </h1>
 
-      {/* 3D Avatar Image */}
-      <img id="av" ref={avatarImgRef} className="av" alt="Cybersecurity Analyst 3D character" src={AVATAR_IMAGE_SRC} />
+      {/* Transparent 3D Avatar Cutout */}
+      <img
+        id="av"
+        ref={avatarImgRef}
+        className="av"
+        alt="Isha Sonaria 3D Avatar"
+        src={AVATAR_IMAGE_SRC}
+        referrerPolicy="no-referrer"
+      />
 
       {/* Fast Tech Brand Highlights */}
       <div className="logos" aria-hidden="true">
@@ -683,32 +694,32 @@ export default function App() {
           <div className="sub rv">Education &amp; Certifications</div>
 
           <div className="bub">
-            <div className="bx" data-dr="1">
+            <div className="bx edu" data-dr="1">
               <div className="d">2023 – 2026</div>
-              <h3 style={{ fontSize: '26px' }}>Bachelor of Computer Applications (BCA)</h3>
+              <h3>Bachelor of Computer Applications (BCA)</h3>
               <div className="o">Bhakta Kavi Narsinh Mehta University</div>
               <p style={{ margin: '8px 0 0' }}>CGPA 8.30 / 10 · Sem 1 Rank 1</p>
             </div>
 
-            <div className="bx" data-dr="-1">
+            <div className="bx edu" data-dr="-1">
               <div className="d">Sep 2026</div>
-              <h3 style={{ fontSize: '26px' }}>Cyber Security Fundamentals Program (CSFP)</h3>
+              <h3>Cyber Security Fundamentals Program (CSFP)</h3>
               <div className="o">VRSecurity · GRAND MASTER</div>
               <p style={{ margin: '8px 0 0' }}>Credential ID: ID-VRS-008</p>
             </div>
           </div>
 
           <div className="bub">
-            <div className="bx" data-dr="-1">
+            <div className="bx edu" data-dr="-1">
               <div className="d">Jul 2026</div>
-              <h3 style={{ fontSize: '26px' }}>Certified Cybersecurity Foundations (CORE)</h3>
+              <h3>Certified Cybersecurity Foundations (CORE)</h3>
               <div className="o">Hackviser</div>
               <p style={{ margin: '8px 0 0' }}>Credential ID: HV-CORE-HO4ESOYZ</p>
             </div>
 
-            <div className="bx" data-dr="1">
+            <div className="bx edu" data-dr="1">
               <div className="d">2026 · Global Ranking</div>
-              <h3 style={{ fontSize: '26px' }}>TryHackMe Competitive Cybersecurity Standing</h3>
+              <h3>TryHackMe Competitive Cybersecurity Standing</h3>
               <div className="o">TryHackMe Profile: CipherGhost24</div>
               <p style={{ margin: '8px 0 0' }}>Top 2% Globally · 100+ Completed Labs · 20+ Badges</p>
             </div>

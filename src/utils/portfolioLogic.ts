@@ -146,5 +146,106 @@ export function calculateCardDeckEffect(
   return { scale, brightness, opacity };
 }
 
+export interface HeroLayoutParams {
+  viewportWidth: number;
+  viewportHeight: number;
+  scrollY: number;
+  elapsedSec: number;
+  h1Width: number;
+  h1Height: number;
+  avatarWidth: number;
+  mouseX: number;
+  mouseY: number;
+}
+
+export interface HeroLayoutResult {
+  isMobile: boolean;
+  isCompactLaptop: boolean;
+  scrollProgress: number;
+  h1X: number;
+  h1Y: number;
+  h1Scale: number;
+  h1Opacity: number;
+  avatarX: number;
+  avatarY: number;
+  avatarScale: number;
+  avatarOpacity: number;
+  bioOpacity: number;
+}
+
+/**
+ * Computes dynamic responsive hero positioning across mobile, laptop, and large desktop viewports.
+ */
+export function calculateHeroLayout(params: HeroLayoutParams): HeroLayoutResult {
+  const {
+    viewportWidth: W,
+    viewportHeight: H,
+    scrollY: sy,
+    elapsedSec: t,
+    h1Width: w0,
+    h1Height: h0,
+    avatarWidth: aw,
+    mouseX: mx,
+    mouseY: my,
+  } = params;
+
+  const isMobile = W <= 820;
+  const isCompactLaptop = !isMobile && (H <= 780 || W <= 1366);
+  const p = clamp(sy / ((H || 1) * 0.85), 0, 1);
+  const e = 1 - Math.pow(1 - p, 3);
+
+  const s0 = Math.min(1, (W * 0.92) / (w0 || 1));
+  const dockedWidth = W < 600 ? 110 : isCompactLaptop ? 130 : 148;
+  const s1 = Math.min(s0, dockedWidth / (w0 || 1));
+  const restRatio = isMobile ? (H < 720 ? 0.14 : 0.155) : isCompactLaptop ? 0.175 : 0.19;
+  const restY = H * restRatio - (h0 * s0) / 2;
+
+  const h1X = ((W - w0 * s0) / 2) * (1 - e) + W * 0.05 * e - mx * 12 * (1 - e);
+  const h1Y = restY * (1 - e) + 15 * e - my * 6 * (1 - e);
+  const h1Scale = s0 + (s1 - s0) * e;
+  const h1Opacity = isMobile ? 1 - clamp((p - 0.55) / 0.35, 0, 1) : 1;
+
+  const iv = clamp((t - 0.18) / 0.55, 0, 1);
+  const ib = isMobile ? 1 : 1 + 2.7 * Math.pow(iv - 1, 3) + 1.7 * Math.pow(iv - 1, 2);
+  const fa = 1 - clamp((p - 0.25) / 0.45, 0, 1);
+  const avatarBaseYRatio = isMobile ? (H < 720 ? 0.165 : 0.185) : isCompactLaptop ? 0.195 : 0.205;
+  const avatarX = (W - aw) / 2;
+  const avatarY = H * avatarBaseYRatio + Math.sin(t * 1.45) * 8 - e * H * 0.28;
+  const avatarScale = (1 - 0.32 * e) * ib;
+  const avatarOpacity = fa * iv;
+
+  const bioOpacity = 1 - clamp((p - 0.15) / 0.35, 0, 1);
+
+  return {
+    isMobile,
+    isCompactLaptop,
+    scrollProgress: p,
+    h1X,
+    h1Y,
+    h1Scale,
+    h1Opacity,
+    avatarX,
+    avatarY,
+    avatarScale,
+    avatarOpacity,
+    bioOpacity,
+  };
+}
+
+/**
+ * Computes clamped horizontal card drift on desktop/laptop viewports and disables drift on mobile.
+ */
+export function calculateExperienceDrift(
+  rectTop: number,
+  rectHeight: number,
+  viewportHeight: number,
+  factor: number,
+  isMobile: boolean
+): number {
+  if (isMobile) return 0;
+  const raw = (viewportHeight / 2 - (rectTop + rectHeight / 2)) * 0.08 * factor;
+  return clamp(raw, -36, 36);
+}
+
 
 
